@@ -9,7 +9,7 @@ jobs:
     strategy:
         matrix:
             r_version: [3.6.3] #[3.6.3, 4.1.0]
-            os_version: [bionic] #[centos7, bionic]
+            os_version: [centos7, bionic]
     runs-on: ubuntu-latest
     steps:
       - name: tag name
