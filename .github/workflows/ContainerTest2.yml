@@ -1,4 +1,4 @@
-name: Setup base Linux images
+name: Create OSP Linux images
 on: 
 #  release:
 #    types: [published]
