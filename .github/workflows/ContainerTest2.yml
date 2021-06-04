@@ -1,4 +1,4 @@
-name: Docker test 2
+name: Setup base Linux images
 on: 
 #  release:
 #    types: [published]
@@ -6,7 +6,10 @@ on:
 
 jobs:
   build:
-#    name: Docker test 2
+    strategy:
+        matrix:
+            r_version: [3.6.3] #[3.6.3, 4.1.0]
+            os_version: [centos7, bionic]
     runs-on: ubuntu-latest
     steps:
       - name: tag name
@@ -26,8 +29,11 @@ jobs:
         with:
           context: .
           file: .github/workflows/Dockerfile
-          push: false
+          build-args: |
+            r_version=${{ matrix.r_version }}
+            os_version=${{ matrix.os_version }}
+          push: true
           tags: |
-            ghcr.io/yuri05/derived-r3.6.3-centos7:latest
-            ghcr.io/yuri05/derived-r3.6.3-centos7:${{ steps.tag_name.outputs.SOURCE_TAG}}
-#            docker.pkg.github.com/yuri05/hello-github-actions/base-r3.6.3-centos7:${{ steps.tag_name.outputs.SOURCE_TAG}}
+            ghcr.io/yuri05/base-r${{ matrix.r_version }}-${{ matrix.os_version }}:${{ steps.tag_name.outputs.SOURCE_TAG}}
+#            ghcr.io/yuri05/base-r${{ matrix.r_version }}-${{ matrix.os_version }}:latest
+#            docker.pkg.github.com/yuri05/hello-github-actions/base-r${{ matrix.r_version }}-${{ matrix.os_version }}:${{ steps.tag_name.outputs.SOURCE_TAG}}
